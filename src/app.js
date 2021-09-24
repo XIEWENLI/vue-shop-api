@@ -8,6 +8,7 @@ const inspirecloud = require('@byteinspire/api')
 // 开放静态文件
 app.use(express.static(path.join(__dirname, '../public')))
 // 请求体 parse 中间件，用于 parse json 格式请求体
+// app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 // 路由
