@@ -4,83 +4,50 @@ const router = express.Router()
 // Users表格连接
 const usersModel = require('../models/usersModel')
 
-// 查询所有商品
-router.get('/getUsers', (req, res) => {
+// 注册用户
+router.post('/setUser', (req, res) => {
+  const userData = req.body
   usersModel
-    .where()
-    .find()
+    .where({ username: userData.username })
+    .findOne()
     .then(dt => {
-      res.send({
-        data: dt
-      })
-    })
-})
-
-// 按id查询商品
-router.get('/getUsersOne', (req, res) => {
-  const urlParams = req.query
-  if (urlParams.id !== undefined) {
-    usersModel
-      .where({ _id: urlParams.id })
-      .find()
-      .then(dt => {
-        res.send({
-          data: dt
+      if (dt === null) {
+        usersModel.save({
+          username: userData.username,
+          password: userData.password
         })
-      })
-  } else {
-    res.send({
-      data: null
-    })
-  }
-})
-
-// 按id删除商品
-router.get('/deleteUsers', (req, res) => {
-  const urlParams = req.query
-  if (urlParams.id !== undefined) {
-    usersModel
-      .where({ _id: urlParams.id })
-      .find()
-      .then(dt => {
-        usersModel.delete(dt)
         res.send({
-          data: dt
+          data: userData.username
         })
-      })
-  } else {
-    res.send({
-      data: null
-    })
-  }
-})
-
-// 增加商品
-router.post('/addUsers', (req, res) => {
-  const postData = req.body
-  usersModel.save(data)
-  res.send(postData)
-})
-
-// 按id修改商品
-router.post('/updateUsers', (req, res) => {
-  const postData = req.body
-  if (postData.id !== undefined) {
-    usersModel
-      .where({ _id: postData.id })
-      .find()
-      .then(dt => {
-        // dt.属性=postData.属性
-        usersModel.save(dt)
+      } else {
         res.send({
-          data: dt
+          data: '用户名已存在！！！'
         })
-      })
-  } else {
-    res.send({
-      data: null
+      }
     })
-  }
+})
+
+// 用户登录
+router.post('/getUser', (req, res) => {
+  const userData = req.body
+  usersModel
+    .where({ username: userData.username })
+    .findOne()
+    .then(dt => {
+      if (dt === null) {
+        res.send({
+          data: '用户不存在！！！'
+        })
+      } else if (userData.password === dt.password) {
+        res.send({
+          data: dt.username
+        })
+      } else {
+        res.send({
+          data: '密码错误！！！'
+        })
+      }
+    })
 })
 
 module.exports = router
