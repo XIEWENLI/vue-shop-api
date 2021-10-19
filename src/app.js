@@ -5,11 +5,17 @@ const path = require('path')
 // 引入 @byteinspire/api 库，该库提供了轻服务的各种开箱即用功能
 const inspirecloud = require('@byteinspire/api')
 
+// 跨域
+const cors = require('cors')
+app.use(cors())
+
 // 开放静态文件
 app.use(express.static(path.join(__dirname, '../public')))
+
 // 请求体 parse 中间件，用于 parse json 格式请求体
 // app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // 路由
 const admin = require('./routers/admin')
