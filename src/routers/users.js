@@ -40,7 +40,8 @@ router.post('/getUser', (req, res) => {
         })
       } else if (userData.password === dt.password) {
         res.send({
-          data: dt.username
+          data: dt.username,
+          userId: dt._id
         })
       } else {
         res.send({
