@@ -5,7 +5,7 @@ const router = express.Router()
 const usersModel = require('../models/usersModel')
 
 // 注册用户
-router.post('/setUser', (req, res) => {
+router.post('/addUser', (req, res) => {
   const userData = req.body
   usersModel
     .where({ username: userData.username })
@@ -16,9 +16,15 @@ router.post('/setUser', (req, res) => {
           username: userData.username,
           password: userData.password
         })
-        res.send({
-          data: userData.username
-        })
+        usersModel
+          .where({ username: userData.username })
+          .findOne()
+          .then(dt2 => {
+            res.send({
+              data: dt2.username,
+              userId: dt2._id
+            })
+          })
       } else {
         res.send({
           data: '用户名已存在！！！'
@@ -28,8 +34,8 @@ router.post('/setUser', (req, res) => {
 })
 
 // 用户登录
-router.post('/getUser', (req, res) => {
-  const userData = req.body
+router.get('/getUser', (req, res) => {
+  const userData = req.query
   usersModel
     .where({ username: userData.username })
     .findOne()

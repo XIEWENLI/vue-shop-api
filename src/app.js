@@ -2,8 +2,6 @@ const express = require('express')
 const app = express()
 
 const path = require('path')
-// 引入 @byteinspire/api 库，该库提供了轻服务的各种开箱即用功能
-const inspirecloud = require('@byteinspire/api')
 
 // 跨域
 const cors = require('cors')

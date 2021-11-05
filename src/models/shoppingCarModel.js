@@ -2,7 +2,7 @@
 const inspirecloud = require('@byteinspire/api')
 
 // 使用 inspirecloud.db.table 获取数据表，若该表不存在会默认创建
-const usersModel = inspirecloud.db.table('shopping_car')
+const shoppingCarModel = inspirecloud.db.table('shopping_car')
 
 // 导出该表，以便在 Service 中使用
-module.exports = usersModel
+module.exports = shoppingCarModel
