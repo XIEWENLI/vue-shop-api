@@ -57,4 +57,29 @@ router.get('/getUser', (req, res) => {
     })
 })
 
+//修改用户信息（用户名不能修改）
+router.get('/updateUser', (req, res) => {
+  const userData = req.query
+  usersModel
+    .where({ username: userData.username })
+    .findOne()
+    .then(dt => {
+      if (dt === null) {
+        res.send({
+          data: '用户不存在！！！'
+        })
+      } else if (userData.username === dt.username) {
+        dt.password = userData.password
+        usersModel.save(dt)
+        res.send({
+          data: '密码修改成功！！!'
+        })
+      } else {
+        res.send({
+          data: '用户名错误！！！'
+        })
+      }
+    })
+})
+
 module.exports = router

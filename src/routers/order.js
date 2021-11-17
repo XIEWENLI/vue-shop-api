@@ -8,7 +8,7 @@ const { ObjectId } = mongoose.Types
 // shopping_car表格连接
 const orderModel = require('../models/orderModel')
 
-// AllOrder.vue获取全部订单
+// 1、AllOrder.vue获取全部订单
 router.get('/getAllOrder', (req, res) => {
   const orderData = req.query
   orderModel
@@ -42,7 +42,7 @@ router.get('/updataBuyStateOrder', (req, res) => {
     })
 })
 
-// NoPayOrde.vue获取全部订单
+// 2、NoPayOrde.vue获取全部订单
 router.get('/getNoPayOrder', (req, res) => {
   const orderData = req.query
   orderModel
@@ -63,7 +63,7 @@ router.get('/getNoPayOrder', (req, res) => {
     })
 })
 
-// NotDeliverGoodsOrder.vue获取全部订单
+// 3、NotDeliverGoodsOrder.vue获取全部订单
 router.get('/getNotDeliverGoodsOrder', (req, res) => {
   const orderData = req.query
   orderModel
@@ -88,7 +88,7 @@ router.get('/getNotDeliverGoodsOrder', (req, res) => {
     })
 })
 
-// NotReceiveGoodsOrder.vue获取全部订单
+// 4、NotReceiveGoodsOrder.vue获取全部订单
 router.get('/getNotReceiveGoodsOrder', (req, res) => {
   const orderData = req.query
   orderModel
@@ -114,7 +114,7 @@ router.get('/getNotReceiveGoodsOrder', (req, res) => {
     })
 })
 
-// 订单商品添加
+// order表的商品添加
 router.get('/addOrder', (req, res) => {
   var orderData = req.query
   orderModel.save({
@@ -133,7 +133,7 @@ router.get('/addOrder', (req, res) => {
   })
 })
 
-// 订单表里的_id指定删除
+// order表里的_id指定删除
 router.get('/deleteOrder', (req, res) => {
   const data = req.query
   orderModel

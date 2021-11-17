@@ -21,8 +21,8 @@ router.get('/getGoods', (req, res) => {
     const count = await goodsModel.where().count()
     goodsModel
       .where()
-      .skip(Skip) // 使用 skip 跳过前 2 项
-      .limit(12) // 使用 limit 指定返回 2 项
+      .skip(Skip) // 使用 skip 跳过前 10 项
+      .limit(12) // 使用 limit 指定返回 12 项
       .find()
       .then(dt => {
         res.send({
@@ -33,7 +33,7 @@ router.get('/getGoods', (req, res) => {
   }
 })
 
-// 按id查询单个商品
+// 按商品id查询单个商品信息
 router.get('/getGoodsOne', (req, res) => {
   const urlId = req.query
   goodsModel
@@ -46,7 +46,7 @@ router.get('/getGoodsOne', (req, res) => {
     })
 })
 
-// 按id删除单个商品
+// 按id删除单个商品---
 router.get('/deleteGoods', (req, res) => {
   const urlParams = req.query
   if (urlParams.id !== undefined) {
@@ -66,32 +66,26 @@ router.get('/deleteGoods', (req, res) => {
   }
 })
 
-// 增加单个商品
+// 增加单个商品---
 router.post('/addGoods', (req, res) => {
   const postData = req.body
   goodsModel.save(data)
   res.send(postData)
 })
 
-// 按id修改商品
-router.get('/updateGoods', (req, res) => {
+// 按商品_id修改商品库存
+router.get('/updateGoodsSum', (req, res) => {
   const data = req.query
-  if (data.id !== undefined) {
-    goodsModel
-      .where({ _id: data.id })
-      .find()
-      .then(dt => {
-        // dt.属性=postData.属性
-        goodsModel.save(dt)
-        res.send({
-          data: dt
-        })
+  goodsModel
+    .where({ _id: ObjectId(data.goodsId) })
+    .findOne()
+    .then(dt => {
+      dt.goodsSum = Number(data.goodsSum)
+      goodsModel.save(dt)
+      res.send({
+        data: dt
       })
-  } else {
-    res.send({
-      data: null
     })
-  }
 })
 
 module.exports = router
