@@ -46,12 +46,27 @@ router.get('/getGoodsOne', (req, res) => {
     })
 })
 
-// 按id删除单个商品---
+// 按商品goodsName查询单个商品信息
+router.get('/getGoodsName', (req, res) => {
+  const goodsName = req.query
+  goodsModel
+    .where({ goodsName: new RegExp(goodsName.goodsName) })
+    .find()
+    .then(dt => {
+      if (dt <= 0) {
+        res.send({ isEmpty: true })
+      } else {
+        res.send(dt)
+      }
+    })
+})
+
+// 按id删除单个商品
 router.get('/deleteGoods', (req, res) => {
   const urlParams = req.query
-  if (urlParams.id !== undefined) {
+  if (urlParams.goodsId !== undefined) {
     goodsModel
-      .where({ _id: urlParams.id })
+      .where({ _id: ObjectId(urlParams.goodsId) })
       .find()
       .then(dt => {
         goodsModel.delete(dt)
@@ -67,10 +82,28 @@ router.get('/deleteGoods', (req, res) => {
 })
 
 // 增加单个商品---
-router.post('/addGoods', (req, res) => {
-  const postData = req.body
-  goodsModel.save(data)
-  res.send(postData)
+router.post('/addGoodsOne', (req, res) => {
+  const goodsData = req.body
+  goodsModel.save(goodsData)
+  res.send(goodsData)
+})
+
+// 按_id修改商品信息
+router.post('/updateGoods', (req, res) => {
+  const goodsData = req.body
+  goodsModel
+    .where({ _id: ObjectId(goodsData.goodsId) })
+    .findOne()
+    .then(dt => {
+      dt.goodsName = goodsData.goodsName
+      dt.goodsSum = goodsData.goodsSum
+      dt.goodsSRC = goodsData.goodsSRC
+      dt.goodsPrice = goodsData.goodsPrice
+      dt.goodsOldPrice = goodsData.goodsOldPrice
+      dt.goodsDetail = goodsData.goodsDetail
+      goodsModel.save(dt)
+      res.send(dt)
+    })
 })
 
 // 按商品_id修改商品库存
