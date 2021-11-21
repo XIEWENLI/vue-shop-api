@@ -28,4 +28,56 @@ router.get('/getAdmin', (req, res) => {
     })
 })
 
+// 获取是否开启登录功能状态
+router.get('/getAdminDL', (req, res) => {
+  adminModel
+    .where()
+    .findOne()
+    .then(dt => {
+      res.send({
+        data: dt.DL
+      })
+    })
+})
+// 设置是否开启登录功能状态
+router.get('/setAdminDL', (req, res) => {
+  const userData = req.query
+  adminModel
+    .where()
+    .findOne()
+    .then(dt => {
+      dt.DL = userData.DL
+      adminModel.save(dt)
+      res.send({
+        data: '操作成功！'
+      })
+    })
+})
+
+// 获取是否开启注册功能状态
+router.get('/getAdminZC', (req, res) => {
+  adminModel
+    .where()
+    .findOne()
+    .then(dt => {
+      res.send({
+        data: dt.ZC
+      })
+    })
+})
+// 设置是否开启注册功能状态
+router.get('/setAdminZC', (req, res) => {
+  const userData = req.query
+  adminModel
+    .where()
+    .findOne()
+    .then(dt => {
+      dt.ZC = userData.ZC
+      adminModel.save(dt)
+      res.send({
+        data: '操作成功！'
+      })
+    })
+})
+
 module.exports = router

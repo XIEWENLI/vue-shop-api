@@ -149,4 +149,64 @@ router.get('/deleteOrder', (req, res) => {
     })
 })
 
+// 管理员查询所有订单
+router.get('/getOrder', (req, res) => {
+  // 获取url参数
+  const Params = req.query
+  // 使用 skip 跳过前 Skip 项
+  let Skip = Number(Params.count)
+  // orderModel.where().count()是promise
+  f()
+  async function f() {
+    // 数据库中商品的总数
+    const count = await orderModel.where().count()
+    orderModel
+      .where()
+      .skip(Skip) // 使用 skip 跳过前 10 项
+      .limit(12) // 使用 limit 指定返回 12 项
+      .find()
+      .then(dt => {
+        res.send({
+          goodsCount: count,
+          data: dt
+        })
+      })
+  }
+})
+
+// 管理员按id查询所有订单
+router.get('/getOrderUserID', (req, res) => {
+  // 获取url参数
+  const userId = req.query
+  orderModel
+    .where({ userID: ObjectId(userId.userID) })
+    .find()
+    .then(dt => {
+      res.send(dt)
+    })
+})
+
+// 管理员修改订单的状态值
+router.get('/updateState', (req, res) => {
+  const orderData = req.query
+  orderModel
+    .where({ _id: ObjectId(orderData.orderId) })
+    .findOne()
+    .then(dt => {
+      if (dt !== null) {
+        dt.payState = orderData.payState
+        dt.deliverState = orderData.deliverState
+        dt.receiveState = orderData.receiveState
+        orderModel.save(dt)
+        res.send({
+          data: '发货成功！'
+        })
+      } else {
+        res.send({
+          data: '发货失败！'
+        })
+      }
+    })
+})
+
 module.exports = router

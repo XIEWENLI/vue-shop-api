@@ -103,7 +103,6 @@ router.get('/updataShoopingCar', (req, res) => {
 // shoppingCar表里的指定_id 删除
 router.get('/deleteShoopingCar', (req, res) => {
   const data = req.query
-  console.log(data)
   shoppingCarModel
     .where({
       _id: ObjectId(data.shoppingCarId)
