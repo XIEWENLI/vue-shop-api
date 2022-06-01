@@ -121,6 +121,7 @@ router.get('/addOrder', (req, res) => {
     userID: ObjectId(orderData.userId),
     goodsID: ObjectId(orderData.goodsId),
     buySum: Number(orderData.buySum),
+    supplierName:orderData.supplierVal,
     // 用户付款则为true
     payState: orderData.payState,
     // deliverState 管理员发货则为true

@@ -33,7 +33,7 @@ router.get('/getShoppingCar', (req, res) => {
 })
 
 // 购物车商品 添加
-router.get('/addShoppingCar', (req, res) => {
+router.get('/addShoppingCar', (req, res) => { 
   var shoppingCarData = req.query
   shoppingCarModel
     .where({
@@ -46,6 +46,7 @@ router.get('/addShoppingCar', (req, res) => {
         shoppingCarModel.save({
           userID: ObjectId(shoppingCarData.userId),
           goodsID: ObjectId(shoppingCarData.goodsId),
+          supplierName:shoppingCarData.supplierVal,
           buySum: Number(shoppingCarData.buySum)
         })
         res.send({
@@ -54,6 +55,7 @@ router.get('/addShoppingCar', (req, res) => {
         })
       } else {
         dt.buySum += Number(shoppingCarData.buySum)
+        dt.supplierName=shoppingCarData.supplierVal
         // 加入购物车商品时，数量不超过库存
         if (dt.buySum > shoppingCarData.goodsSum) {
           dt.buySum = shoppingCarData.goodsSum

@@ -21,7 +21,7 @@ router.get('/getGoods', (req, res) => {
     const count = await goodsModel.where().count()
     goodsModel
       .where()
-      .skip(Skip) // 使用 skip 跳过前 10 项
+      .skip(Skip) // 使用 skip 跳过前 12 项
       .limit(12) // 使用 limit 指定返回 12 项
       .find()
       .then(dt => {

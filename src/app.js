@@ -21,12 +21,14 @@ const users = require('./routers/users')
 const goods = require('./routers/goods')
 const shopping_car = require('./routers/shopping_car')
 const order = require('./routers/order')
+const suppliers = require('./routers/suppliers')
 
 app.use(admin)
 app.use(users)
 app.use(goods)
 app.use(shopping_car)
 app.use(order)
+app.use(suppliers)
 
 // 导出 Express 对象
 module.exports = app
